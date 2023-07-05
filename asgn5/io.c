@@ -8,6 +8,7 @@
 #include "code.h"
 #include "defines.h"
 
+//read bytes from input file until no more bytes can be read, circumnavigates issues with read() function
 int read_bytes(int infile, uint8_t *buf, int nbytes) {
 	int bytes = 0, bytes_read = 0;
 
@@ -19,6 +20,7 @@ int read_bytes(int infile, uint8_t *buf, int nbytes) {
 	return bytes_read;
 }
 
+//same as read_bytes, but instead writes to output file
 int write_bytes(int outfile, uint8_t *buf, int nbytes) {
 	int bytes = 0;
 	int bytes_write = 0;
@@ -36,6 +38,7 @@ uint8_t buffer[BLOCK];
 uint32_t read_num_bytes = 0;
 int bit_tracker = 0;
 
+//read in a block of bytes, and then read a bit one at a time
 bool read_bit(int infile, uint8_t *bit)
 {
 	if(top == BLOCK)
@@ -64,6 +67,7 @@ bool read_bit(int infile, uint8_t *bit)
 static uint8_t write_buffer[BLOCK];
 static uint32_t index = 0;
 
+//write codes to outfile bit by bit
 void write_code(int outfile, Code *c)
 {
 	bool exit_condition = 0;
@@ -91,6 +95,7 @@ void write_code(int outfile, Code *c)
 	}
 }
 
+//flush the codes to the outfile
 void flush_codes(int outfile)
 {
 	if(index < BLOCK * 8)

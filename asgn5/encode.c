@@ -21,6 +21,7 @@ typedef struct {
 
 int main()
 {
+	//open input and output file, create histogram
 	int infile = open("input.txt", O_RDONLY);
 	int outfile = open("output.txt", O_WRONLY);
 	uint64_t hist[256];
@@ -34,6 +35,7 @@ int main()
 
 	uint8_t buffer[4096];
 
+	//loop through bytes read, and increment associated histogram position for character
 	int leave_condition = 1;
 	while(leave_condition)
 	{
@@ -51,10 +53,12 @@ int main()
 		}
 	}
 
+	//build huffman tree and codes from tree
 	Node *root = build_tree(hist);
 	Code code_table[ALPHABET];
 	build_codes(root, code_table);
 
+	//dump tree to outfile, move infile to beginning, and write code to outfile
 	dump_tree(outfile, root);
 
 	lseek(infile, 0, SEEK_SET);
