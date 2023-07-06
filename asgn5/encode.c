@@ -19,7 +19,13 @@ typedef struct {
 	uint64_t file_size;
 } Header;
 
-int main()
+void print_hist(uint64_t hist[static 256]) {
+	for(int i = 0; i < 256; i++) {
+		printf("%d:\t%llu\n", i, hist[i]);
+	}
+}
+
+int main(void)
 {
 	//open input and output file, create histogram
 	int infile = open("input.txt", O_RDONLY);
@@ -30,8 +36,8 @@ int main()
 		hist[i] = 0;
 	}
 
-	hist[0] += 1;
-	hist[255] += 1;
+	//hist[0] += 1;
+	//hist[255] += 1;
 
 	uint8_t buffer[4096];
 
@@ -45,6 +51,7 @@ int main()
 			for(int i = 0; i < bytes; i++)
 			{
 				hist[buffer[i]] += 1;
+				printf("%d\n", buffer[i]);
 			}
 		}
 		else
@@ -57,6 +64,12 @@ int main()
 	Node *root = build_tree(hist);
 	Code code_table[ALPHABET];
 	build_codes(root, code_table);
+
+	for(int i = 0; i < 256; i++) {
+		printf("%d:\t", i);
+		code_print(&code_table[i]);
+		printf("\n");
+	}
 
 	//dump tree to outfile, move infile to beginning, and write code to outfile
 	dump_tree(outfile, root);

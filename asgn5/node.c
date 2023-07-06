@@ -29,5 +29,5 @@ Node *node_join(Node *left, Node *right) {
 }
 
 void node_print(Node *n) {
-    printf("Node's Symbol: %c Node's Frequency: %lu\n", n->symbol, n->frequency);
+    printf("Node's Symbol: %c Node's Frequency: %llu\n", n->symbol, n->frequency);
 }
